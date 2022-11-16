@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
- // Material Component Modules
+import { HttpClientModule } from '@angular/common/http';
+// Material Component Modules
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -28,6 +29,7 @@ import { PostListComponent } from './posts/post-list/post-list.component';
     AppRoutingModule,
     FormsModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     // Material Component Modules
     MatInputModule,
     MatCardModule,
