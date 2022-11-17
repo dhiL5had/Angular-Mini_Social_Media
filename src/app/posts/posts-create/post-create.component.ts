@@ -66,8 +66,8 @@ export class PostCreateComponent implements OnInit {
 
   onImageSelect(event: Event) {
     const file:any = (event.target as HTMLInputElement)?.files;
-    this.form.patchValue({image: file[0]});
-    this.form.get('image')?.updateValueAndValidity();
+    this.form.patchValue({ image: file[0] });
+    this.form.get("image")?.updateValueAndValidity();
     // populate a presentable image
     const reader = new FileReader();
     reader.onload = () => {
