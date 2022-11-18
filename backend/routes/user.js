@@ -7,7 +7,6 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const user = require("../models/user");
 
-// console.log(hash);
 router.post("/signup", (req, res, next) => {
   const { email, password } = req.body;
   argon.hash(password).then(hash => {
@@ -18,7 +17,6 @@ router.post("/signup", (req, res, next) => {
     user.save().then(result => {
       res.status(201).json({
         message: "user created",
-        response: result
       });
     }).catch(err => {
       res.status(500).json({
@@ -54,6 +52,7 @@ router.post("/login", (req, res, next) => {
     res.status(200).json({
       token,
       expiresIn: 3600,
+      userId: fetchedUser._id
     })
   })
   .catch(err => {
