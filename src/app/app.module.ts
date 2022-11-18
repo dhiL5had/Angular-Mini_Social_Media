@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 // Material Component Modules
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
@@ -14,22 +14,28 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 // User Defined Components
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { SignupComponent } from './auth/signup/signup.component';
+import { LoginComponent } from './auth/login/login.component';
 import { PostCreateComponent } from './posts/posts-create/post-create.component';
 import { HeaderComponent } from './components/header/header.component';
 import { PostListComponent } from './posts/post-list/post-list.component';
+import { AuthInterceptor } from './auth/auth-interceptor';
 
 @NgModule({
   declarations: [
     // User Defined Components
     AppComponent,
     HeaderComponent,
+    SignupComponent,
+    LoginComponent,
     PostCreateComponent,
     PostListComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule,
+    ReactiveFormsModule, 
+    FormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
     // Material Component Modules
@@ -41,7 +47,11 @@ import { PostListComponent } from './posts/post-list/post-list.component';
     MatProgressSpinnerModule,
     MatPaginatorModule,
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
