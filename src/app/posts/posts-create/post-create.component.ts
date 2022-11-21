@@ -32,7 +32,7 @@ export class PostCreateComponent implements OnInit, OnDestroy {
     ) {}
 
   ngOnInit(): void {
-    this.authService.getAuthStatusListener().subscribe(
+    this.authStatusSub =  this.authService.getAuthStatusListener().subscribe(
       authStatu => {
         this.isLoading = false;
       })
