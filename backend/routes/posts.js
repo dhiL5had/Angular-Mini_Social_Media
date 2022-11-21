@@ -38,13 +38,16 @@ router.post("", checkAuth, multer({ storage }).single("image"), (req, res, next)
     res.status(201).json({
       message: "Post created successfully",
       post: {
+        ...createdPost,
         id: createdPost._id,
-        title: createdPost.title,
-        content: createdPost.content,
-        imagePath: createdPost.imagePath,
       },
     });
-  });
+  })
+  .catch(err => {
+    res.status(500).json({
+      message: "Post creation failed"
+    })
+  })
 });
 
 router.get("", (req, res, next) => {
@@ -65,7 +68,9 @@ router.get("", (req, res, next) => {
     });
   })
   .catch((err) => {
-    console.log("failed", err);
+    res.status(500).json({
+      message: "Fetching posts failed!"
+    })
   });
 });
 
@@ -74,8 +79,12 @@ router.get("/:id", (req, res, next) => {
     if (post) {
       res.status(200).json(post);
     } else {
-      res.status(404).json({ message: "post not foudn" });
+      res.status(404).json({ message: "post not found" });
     }
+  }).catch((err) => {
+    res.status(500).json({
+      message: "Fetching post failed!"
+    })
   });
 });
 
@@ -93,7 +102,12 @@ router.patch("/:id", checkAuth, multer({ storage: storage }).single("image"),(re
       } else {
         res.status(401).json({ message: "Not authorized" });
       }
-    });
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: "Updating post failed!"
+      })
+    })
   }
 );
 
@@ -105,9 +119,10 @@ router.delete("/:id", checkAuth, (req, res, next) => {
       } else {
         res.status(401).json({ message: "Not authorized" });
       }
-    })
-    .catch((err) => {
-      console.log("failed", err);
+    }).catch((err) => {
+      res.status(500).json({
+        message: "Deleting post failed!"
+      })
     });
 });
 
