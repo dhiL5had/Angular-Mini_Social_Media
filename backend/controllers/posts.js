@@ -73,7 +73,7 @@ exports.updatePost = (req, res, next) => {
   const { id, title, content } = req.body;
   const post = new Post({ _id: id, title, content, imagePath, creator: req.userData.userId });
   Post.updateOne({ _id: req.params.id, creator: req.userData.userId }, post).then((result) => {
-    if (result.modifiedCount > 0) {
+    if (result.matchedCount > 0) {
       res.status(200).json({ message: "Update successfull" });
     } else {
       res.status(401).json({ message: "Not authorized" });

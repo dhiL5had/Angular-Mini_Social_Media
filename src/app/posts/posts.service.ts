@@ -4,7 +4,9 @@ import { Subject, map } from 'rxjs';
 import { Router } from '@angular/router';
 
 import { Post } from './posts.model';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment';
+
+const API_URL = environment.baseUrl + '/posts/';
 
 @Injectable({ providedIn: 'root' })
 export class PostService {
@@ -14,7 +16,7 @@ export class PostService {
   constructor(private http: HttpClient, private router: Router) {}
   getPosts(postsPerPage: number, currentPage: number) {
     const queryParams = `?pagesize=${postsPerPage}&page=${currentPage}`
-    this.http.get<{ message: string; posts: any, postcount: number }>(environment.baseUrl + 'posts' + queryParams)
+    this.http.get<{ message: string; posts: any, postcount: number }>(API_URL + queryParams)
     .pipe(map((postData) => {
       return { 
         posts: postData.posts.map((post: any) => {
@@ -49,7 +51,7 @@ export class PostService {
       content: string;
       imagePath: string;
       creator: string;
-    }>(environment.baseUrl + 'posts/' + id);
+    }>(API_URL + id);
   }
 
   addPost(title: string, content: string, image: File) {
@@ -59,7 +61,7 @@ export class PostService {
     postData.append('image', image, title);
     this.http
       .post<{ message: string; post: Post }>(
-        environment.baseUrl + 'posts',
+        environment.baseUrl + '/posts',
         postData
       )
       .subscribe((resData) => {
@@ -79,13 +81,13 @@ export class PostService {
       postData = { id, title, content, imagePath: image, creator: '' };
     }
     this.http
-      .patch(environment.baseUrl + 'posts/' + id, postData)
+      .patch(API_URL + id, postData)
       .subscribe((response) => {
         this.router.navigate(['/']);
       });
   }
 
   deletePost(postId: string) {
-    return this.http.delete(environment.baseUrl + 'posts/' + postId)
+    return this.http.delete(API_URL + postId)
   }
 }

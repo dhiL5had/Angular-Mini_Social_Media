@@ -9,7 +9,7 @@ const postsRoutes = require('./routes/posts');
 const userRoutes = require('./routes/user');
 
 mongoose
-  .connect("mongodb://localhost:27017/node-angular")
+  .connect(`mongodb://${process.env.MONGO_SECRET}/node-angular`)
   .then(() => {
     console.log("Connected to db");
   })

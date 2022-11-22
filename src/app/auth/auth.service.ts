@@ -3,8 +3,10 @@ import { HttpClient } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { Subject } from "rxjs";
 
-import { environment } from 'src/environments/environment.prod';
 import { AuthData } from "./auth-data.model";
+import { environment } from 'src/environments/environment';
+
+const API_URL = environment.baseUrl + '/user';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -34,7 +36,7 @@ export class AuthService {
 
   createUser(email: string, password: string) {
     const authData: AuthData = { email, password };
-    return this.htt.post(environment.baseUrl + 'user/signup', authData)
+    return this.htt.post(API_URL + '/signup', authData)
     .subscribe(response => {
       this.router.navigate(['/']);
     }, error => {
@@ -44,7 +46,7 @@ export class AuthService {
 
   login(email: string, password: string) {
     const authData: AuthData = { email, password };
-    this.htt.post<{token: string, expiresIn: number, userId: string}>(environment.baseUrl + 'user/login', authData)
+    this.htt.post<{token: string, expiresIn: number, userId: string}>(API_URL + '/login', authData)
       .subscribe(response => {
         const { token, expiresIn } = response;
         this.token = token;
