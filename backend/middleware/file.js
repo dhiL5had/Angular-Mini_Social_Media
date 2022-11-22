@@ -11,7 +11,7 @@ const storage = multer.diskStorage({
     const isValid = MIME_TYPE_MAP[file.mimetype];
     let err = new Error("Invalid mime type");
     if (isValid) err = null;
-    cb(null, "backend/images");
+    cb(null, "images");
   },
   filename: (req, file, cb) => {
     const name = file.originalname.toLowerCase().split(" ").join("-");
